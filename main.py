@@ -1,16 +1,17 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from bs4 import BeautifulSoup
+import requests
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+#Page to scrape from
+page_to_scrape = requests.get('https://quotes.toscrape.com/')
 
+soup = BeautifulSoup(page_to_scrape.text, "html.parser")
+#Store all attributes with the span class = text
+quotes = soup.findAll("span", attrs = {"class": "text"})
+#Store all attributes with the small class = author
+author = soup.findAll("small", attrs = {"class": "author"})
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+#Prints the list of quotes with authors
+for x,y in zip(quotes,author):
+    print(x.text + "  -  " + y.text)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
