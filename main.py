@@ -1,3 +1,5 @@
+import csv
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -12,6 +14,23 @@ quotes = soup.findAll("span", attrs = {"class": "text"})
 author = soup.findAll("small", attrs = {"class": "author"})
 
 #Prints the list of quotes with authors
-for x,y in zip(quotes,author):
-    print(x.text + "  -  " + y.text)
+#for q,a in zip(quotes,author):
+    #print(q.text + "  -  " + a.text)
 
+csvCount = 1
+file = open ("Webscraping_%d.csv"%csvCount, "w", newline="")
+writer = csv.writer(file)
+csvCount += 1
+
+#Sets up the headers in the excel file
+writer.writerow(["QUOTES", "AUTHORS"])
+
+
+
+for q,a in zip(quotes,author):
+    print(q.text + " - " + a.text)
+    #Insert into each row
+    writer.writerow([q.text, a.text])
+
+
+file.close()
